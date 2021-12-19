@@ -1,0 +1,1650 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "ecommerce-spring-reactjs"
+servers:
+  - url: "http://localhost:8080"
+
+tags:
+  - name: "AdminController"
+  - name: "AuthenticationController"
+  - name: "PerfumeController"
+  - name: "RegistrationController"
+  - name: "UserController"
+
+paths:
+  /api/v1/admin/add:
+    post:
+      tags:
+        - "AdminController"
+      summary: "Add perfume to database"
+      operationId: "addPerfume"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                perfumeTitle:
+                  type: string
+                perfumer:
+                  type: string
+                year:
+                  type: string
+                country:
+                  type: string
+                perfumeGender:
+                  type: string
+                fragranceTopNotes:
+                  type: string
+                fragranceMiddleNotes:
+                  type: string
+                fragranceBaseNotes:
+                  type: string
+                description:
+                  type: string
+                filename:
+                  type: string
+                price:
+                  type: string
+                volume:
+                  type: string
+                type:
+                  type: string
+              required:
+                - perfumeTitle
+                - perfumer
+                - year
+                - country
+                - perfumeGender
+                - fragranceTopNotes
+                - fragranceMiddleNotes
+                - fragranceBaseNotes
+                - price
+                - volume
+                - type
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/PerfumeResponse"
+              examples:
+                PerfumeResponse:
+                  $ref: "#/components/schemas/PerfumeResponse"
+        "400":
+          description: "Bad request"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/PerfumeError"
+              examples:
+                PerfumeError:
+                  $ref: "#/components/schemas/PerfumeError"
+      security:
+        - token: []
+
+  /api/v1/admin/edit:
+    put:
+      tags:
+        - "AdminController"
+      summary: "Update perfume"
+      operationId: "updatePerfume"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                perfumeTitle:
+                  type: string
+                perfumer:
+                  type: string
+                year:
+                  type: string
+                country:
+                  type: string
+                perfumeGender:
+                  type: string
+                fragranceTopNotes:
+                  type: string
+                fragranceMiddleNotes:
+                  type: string
+                fragranceBaseNotes:
+                  type: string
+                description:
+                  type: string
+                filename:
+                  type: string
+                price:
+                  type: string
+                volume:
+                  type: string
+                type:
+                  type: string
+              required:
+                - perfumeTitle
+                - perfumer
+                - year
+                - country
+                - perfumeGender
+                - fragranceTopNotes
+                - fragranceMiddleNotes
+                - fragranceBaseNotes
+                - price
+                - volume
+                - type
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/PerfumeResponse"
+              examples:
+                PerfumeResponse:
+                  $ref: "#/components/schemas/PerfumeResponse"
+        "400":
+          description: "Bad request"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/PerfumeError"
+              examples:
+                PerfumeError:
+                  $ref: "#/components/schemas/PerfumeError"
+      security:
+        - token: []
+
+  /api/v1/admin/delete/{id}:
+    delete:
+      tags:
+        - "AdminController"
+      summary: "Delete perfume"
+      operationId: "deletePerfume"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PerfumeResponse"
+      security:
+        - token: []
+
+  /api/v1/admin/orders:
+    get:
+      tags:
+        - "AdminController"
+      summary: "Get all orders from database"
+      operationId: "getAllOrders"
+      parameters: []
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponse"
+      security:
+        - token: []
+
+  /api/v1/admin/order:
+    post:
+      tags:
+        - "AdminController"
+      summary: "Get user order by email"
+      operationId: "getUserOrdersByEmail"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "test123@test.com"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/OrderResponse"
+      security:
+        - token: []
+
+  /api/v1/admin/order/delete/{id}:
+    delete:
+      tags:
+        - "AdminController"
+      summary: "Delete order"
+      operationId: "deleteOrder"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponse"
+      security:
+        - token: []
+
+  /api/v1/admin/user/{id}:
+    get:
+      tags:
+        - "AdminController"
+      summary: "Get user by id"
+      operationId: "getUser"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/User"
+      security:
+        - token: []
+
+  /api/v1/admin/user/all:
+    get:
+      tags:
+        - "AdminController"
+      summary: "Get users from database"
+      operationId: "getAllUsers"
+      parameters: []
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+      security:
+        - token: []
+
+  /api/v1/admin/graphql/user:
+    post:
+      tags:
+        - "AdminController"
+      summary: "Get user by GraphQL query"
+      operationId: "getUserByQuery"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                query:
+                  type: "string"
+                  example: "{ user(id: 2) { id email firstName lastName city address phoneNumber postIndex } }"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: "integer"
+                    format: int64
+                  email:
+                    type: "string"
+                  firstName:
+                    type: "string"
+                  lastName:
+                    type: "string"
+                  city:
+                    type: "string"
+                  address:
+                    type: "string"
+                  phoneNumber:
+                    type: "string"
+                  postIndex:
+                    type: "string"
+                example:
+                  id: 2
+                  email: "test123@test.com"
+                  firstName: "John"
+                  lastName: "Doe"
+                  city: "New York"
+                  address: "Wall Street 1"
+                  phoneNumber: "1234567890"
+                  postIndex: "1234567890"
+      security:
+        - token: []
+
+  /api/v1/admin/graphql/user/all:
+    post:
+      tags:
+        - "AdminController"
+      summary: "Get all users by GraphQL query"
+      operationId: "getAllUsersByQuery"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                query:
+                  type: "string"
+                  example: "{ users { id email firstName lastName city address phoneNumber postIndex } }"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: "integer"
+                      format: int64
+                    email:
+                      type: "string"
+                    firstName:
+                      type: "string"
+                    lastName:
+                      type: "string"
+                    city:
+                      type: "string"
+                    address:
+                      type: "string"
+                    phoneNumber:
+                      type: "string"
+                    postIndex:
+                      type: "string"
+                  example:
+                    id: 2
+                    email: "test123@test.com"
+                    firstName: "John"
+                    lastName: "Doe"
+                    city: "New York"
+                    address: "Wall Street 1"
+                    phoneNumber: "1234567890"
+                    postIndex: "1234567890"
+      security:
+        - token: []
+
+  /api/v1/admin/graphql/orders:
+    post:
+      tags:
+        - "AdminController"
+      summary: "Get all orders by GraphQL query"
+      operationId: "getAllOrdersQuery"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                query:
+                  type: "string"
+                  example: "{ orders { id totalPrice date firstName lastName city address email phoneNumber postIndex orderItems { id amount quantity perfume { id perfumeTitle perfumer price filename } } } }"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponse"
+      security:
+        - token: []
+
+  /api/v1/admin/graphql/order:
+    post:
+      tags:
+        - "AdminController"
+      summary: "Get orders by user Email GraphQL query"
+      operationId: "getUserOrdersByEmailQuery"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                query:
+                  type: "string"
+                  example: "{ ordersByEmail(email: test123@test.com) { id totalPrice date firstName lastName city address email phoneNumber postIndex orderItems { id amount quantity perfume { id perfumeTitle perfumer price filename } } } }"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponse"
+      security:
+        - token: []
+
+  /api/v1/auth/login:
+    post:
+      tags:
+        - "AuthenticationController"
+      summary: "Login"
+      operationId: "login"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "test123@test.com"
+                password:
+                  type: string
+                  example: "1234567890"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/AuthenticationResponse"
+        "403":
+          description: "Forbidden"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Incorrect password or email"
+
+  /api/v1/auth/forgot:
+    post:
+      tags:
+        - "AuthenticationController"
+      summary: "Send password reset code to users email"
+      operationId: "forgotPassword"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "test123@test.com"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Reset password code is send to your E-mail"
+        "400":
+          description: "Bad Request"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Email not found"
+
+  /api/v1/auth/reset/{code}:
+    get:
+      tags:
+        - "AuthenticationController"
+      summary: "Returns user info by password reset code"
+      operationId: "getPasswordResetCode"
+      parameters:
+        - name: "code"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: "Bad Request"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Password reset code is invalid!"
+
+  /api/v1/auth/reset:
+    post:
+      tags:
+        - "AuthenticationController"
+      summary: "Reset password"
+      operationId: "passwordReset"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: "1234567890"
+                password2:
+                  type: string
+                  example: "1234567890"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Password successfully changed!"
+        "400":
+          description: "Bad Request"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  passwordError:
+                    type: "string"
+                  password2Error:
+                    type: "string"
+              examples:
+                PasswordMatchError:
+                  summary: "Password Match Error"
+                  value:
+                    passwordError: "Passwords do not match."
+                PasswordConfirmationError:
+                  summary: "Password Confirmation Error"
+                  value:
+                    password2Error: "Password confirmation cannot be empty."
+
+  /api/v1/perfumes:
+    get:
+      tags:
+        - "PerfumeController"
+      summary: "Returns list of perfumes"
+      operationId: "getAllPerfumes"
+      parameters: []
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PerfumeResponse"
+
+  /api/v1/perfumes/{id}:
+    get:
+      tags:
+        - "PerfumeController"
+      summary: "Get perfume by id"
+      operationId: "getPerfume"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/PerfumeResponse"
+
+  /api/v1/perfumes/ids:
+    post:
+      tags:
+        - "PerfumeController"
+      summary: "Get perfumes by ids"
+      operationId: "getPerfumesByIds"
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: "array"
+              items:
+                type: "integer"
+                format: int64
+              example: [1, 2, 3]
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PerfumeResponse"
+
+  /api/v1/perfumes/search:
+    post:
+      tags:
+        - "PerfumeController"
+      summary: "Find perfumes by filter parameters"
+      operationId: "findPerfumesByFilterParams"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                perfumers:
+                  type: "array"
+                  items:
+                    type: "string"
+                    example: "Dior"
+                genders:
+                  type: "array"
+                  items:
+                    type: "string"
+                    example: "male"
+                prices:
+                  type: "array"
+                  items:
+                    type: "integer"
+                    format: int32
+                  example: [1, 200]
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PerfumeResponse"
+
+  /api/v1/perfumes/search/gender:
+    post:
+      tags:
+        - "PerfumeController"
+      summary: "Find perfumes by gender"
+      operationId: "findByPerfumeGender"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                genders:
+                  type: "array"
+                  items:
+                    type: "string"
+                    example: "male"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PerfumeResponse"
+
+  /api/v1/perfumes/search/perfumer:
+    post:
+      tags:
+        - "PerfumeController"
+      summary: "Find perfumes by brand"
+      operationId: "findByPerfumer"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                perfumers:
+                  type: "array"
+                  items:
+                    type: "string"
+                  example: ["Dior", "Creed"]
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PerfumeResponse"
+
+  /api/v1/perfumes/graphql/ids:
+    post:
+      tags:
+        - "PerfumeController"
+      summary: "Get list of perfumes by ids GraphQL query"
+      operationId: "getPerfumesByIdsQuery"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                query:
+                  type: "string"
+                  example: "{ perfumesIds(ids: [16,17,18]) {id perfumeTitle perfumer price filename} }"
+
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: "integer"
+                      format: int64
+                    perfumeTitle:
+                      type: "string"
+                    perfumer:
+                      type: "string"
+                    price:
+                      type: "integer"
+                      format: int32
+                    filename:
+                      type: "string"
+                  example:
+                    id: 43
+                    perfumeTitle: "Sauvage"
+                    perfumer: "Dior"
+                    price: 62
+                    filename: "empty.jpg"
+
+  /api/v1/perfumes/graphql/perfumes:
+    post:
+      tags:
+        - "PerfumeController"
+      summary: "Get list of perfumes by GraphQL query"
+      operationId: "getAllPerfumesByQuery"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                query:
+                  type: "string"
+                  example: "{ perfumes {id perfumeTitle perfumer price filename} }"
+
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: "integer"
+                      format: int64
+                    perfumeTitle:
+                      type: "string"
+                    perfumer:
+                      type: "string"
+                    price:
+                      type: "integer"
+                      format: int32
+                    filename:
+                      type: "string"
+                  example:
+                    id: 43
+                    perfumeTitle: "Sauvage"
+                    perfumer: "Dior"
+                    price: 62
+                    filename: "empty.jpg"
+
+  /api/v1/perfumes/graphql/perfume:
+    post:
+      tags:
+        - "PerfumeController"
+      summary: "Get perfume by GraphQL query"
+      operationId: "getPerfumeByQuery"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                query:
+                  type: "string"
+                  example: "{ perfume(id: 43) {id perfumeTitle perfumer price filename} }"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: "integer"
+                    format: int64
+                  perfumeTitle:
+                    type: "string"
+                  perfumer:
+                    type: "string"
+                  price:
+                    type: "integer"
+                    format: int32
+                  filename:
+                    type: "string"
+                example:
+                  id: 43
+                  perfumeTitle: "Sauvage"
+                  perfumer: "Dior"
+                  price: 62
+                  filename: "empty.jpg"
+
+  /api/v1/registration:
+    post:
+      tags:
+        - "RegistrationController"
+      summary: "Registration"
+      operationId: "registration"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                email:
+                  type: "string"
+                  example: "test1234@test.com"
+                password:
+                  type: "string"
+                  example: "1234567890"
+                password2:
+                  type: "string"
+                  example: "1234567890"
+                firstName:
+                  type: "string"
+                  example: "John"
+                lastName:
+                  type: "string"
+                  example: "Doe"
+                captcha:
+                  type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: "string"
+                    example: "User successfully registered."
+        "400":
+          description: "Bad Request"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  passwordError:
+                    type: "string"
+                  password2Error:
+                    type: "string"
+              examples:
+                PasswordMatchError:
+                  summary: "Password Match Error"
+                  value:
+                    passwordError: "Passwords do not match."
+                EmailError:
+                  summary: "Email Error"
+                  value:
+                    emailError: "Email is already used."
+                BindingResultError:
+                  summary: "Binding Result Errors"
+                  value:
+                    captchaError: "Fill captcha."
+                    firstNameError: "First name cannot be empty"
+                    lastNameError: "Last name cannot be empty"
+                    passwordError: "The password must be between 6 and 16 characters long"
+                    password2Error: "The password confirmation must be between 6 and 16 characters long"
+                    emailError: "Incorrect email"
+
+  /api/v1/registration/activate/{code}:
+    get:
+      tags:
+        - "RegistrationController"
+      summary: "Activate email code"
+      operationId: "activateEmailCode"
+      parameters:
+        - name: "code"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: "string"
+                    example: "User successfully activated."
+        "404":
+          description: "Bad Request"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Activation code not found."
+
+  /api/v1/users/info:
+    get:
+      tags:
+        - "UserController"
+      summary: "Get authenticated user info"
+      operationId: "getUserInfo"
+      parameters: []
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/User"
+      security:
+        - token: []
+
+  /api/v1/users/graphql/info:
+    post:
+      tags:
+        - "UserController"
+      summary: "Get authenticated user info by GraphQL query"
+      operationId: "getUserInfoByQuery"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                query:
+                  type: "string"
+                  example: "{ user(id: 2) { id email password firstName lastName city address phoneNumber postIndex activationCode passwordResetCode active provider roles } }"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: "integer"
+                    format: int64
+                  email:
+                    type: "string"
+                  firstName:
+                    type: "string"
+                  lastName:
+                    type: "string"
+                  city:
+                    type: "string"
+                  address:
+                    type: "string"
+                  phoneNumber:
+                    type: "string"
+                  postIndex:
+                    type: "string"
+                example:
+                  id: 2
+                  email: "test123@test.com"
+                  firstName: "John"
+                  lastName: "Doe"
+                  city: "New York"
+                  address: "Wall Street 1"
+                  phoneNumber: "1234567890"
+                  postIndex: "1234567890"
+      security:
+        - token: []
+
+  /api/v1/users/edit:
+    put:
+      tags:
+        - "UserController"
+      summary: "Edit authenticated user info"
+      operationId: "updateUserInfo"
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: "string"
+                  example: "John"
+                lastName:
+                  type: "string"
+                  example: "Doe"
+                city:
+                  type: "string"
+                  example: "New York"
+                address:
+                  type: "string"
+                  example: "Wall Street 1"
+                phoneNumber:
+                  type: "string"
+                  example: "123456"
+                postIndex:
+                  type: "string"
+                  example: "123456"
+              required:
+                - firstName
+                - lastName
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: "Bad Request"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  firstNameError:
+                    type: string
+                    example: "First name cannot be empty"
+                  lastNameError:
+                    type: string
+                    example: "Last name cannot be empty"
+      security:
+        - token: []
+
+  /api/v1/users/edit/password:
+    put:
+      tags:
+        - "UserController"
+      summary: "Change user password"
+      operationId: "updateUserPassword"
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                password:
+                  type: "string"
+                  example: "1234567890"
+                password2:
+                  type: "string"
+                  example: "1234567890"
+              required:
+                - password
+                - password2
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Password successfully changed!"
+        "400":
+          description: "Bad Request"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  passwordError:
+                    type: "string"
+                  password2Error:
+                    type: "string"
+              examples:
+                BindingResultError:
+                  summary: "Binding Result Errors"
+                  value:
+                    passwordError: "The password must be between 6 and 16 characters long"
+                    password2Error: "The password confirmation must be between 6 and 16 characters long"
+                MatchPasswordError:
+                  summary: "Match Password Error"
+                  value:
+                    data: "Passwords do not match."
+      security:
+        - token: []
+
+  /api/v1/users/cart:
+    post:
+      tags:
+        - "UserController"
+      summary: "Get perfumes by ids"
+      operationId: "getCart"
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: "array"
+              items:
+                type: "integer"
+                format: int32
+              example: [1, 2, 3]
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PerfumeResponse"
+
+  /api/v1/users/orders:
+    get:
+      tags:
+        - "UserController"
+      summary: "Get all user orders by email"
+      operationId: "getAllUserOrders"
+      parameters: []
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponse"
+      security:
+        - token: []
+
+  /api/v1/user/graphql/orders:
+    post:
+      tags:
+        - "UserController"
+      summary: "Get all user orders by GraphQL query"
+      operationId: "getUserOrdersByQuery"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                query:
+                  type: "string"
+                  example: "{ ordersByEmail(email: test123@test.com) { id totalPrice date firstName lastName city address email phoneNumber postIndex orderItems { id amount quantity perfume { id perfumeTitle perfumer price filename } } } }"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponse"
+      security:
+        - token: []
+
+
+  /api/v1/users/order:
+    post:
+      tags:
+        - "UserController"
+      summary: "Post order"
+      operationId: "postOrder"
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                totalPrice:
+                  type: "number"
+                  format: "double"
+                  example: 100
+                firstName:
+                  type: "string"
+                  example: "John"
+                lastName:
+                  type: "string"
+                  example: "Doe"
+                city:
+                  type: "string"
+                  example: "New York"
+                address:
+                  type: "string"
+                  example: "Wall Street 1"
+                email:
+                  type: "string"
+                  example: "test123@test.com"
+                phoneNumber:
+                  type: "string"
+                  example: "123456"
+                postIndex:
+                  type: "integer"
+                  format: "int32"
+                  example: 123456
+                perfumesId:
+                  type: "object"
+                  properties:
+                    43:
+                      type: integer
+                      example: 1
+              required:
+                - firstName
+                - lastName
+                - city
+                - address
+                - email
+                - phoneNumber
+                - postIndex
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponse"
+        "400":
+          description: "Bad Request"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  firstNameError:
+                    type: "string"
+                    example: "Fill in the input field"
+                  lastNameError:
+                    type: "string"
+                    example: "Fill in the input field"
+                  cityError:
+                    type: "string"
+                    example: "Fill in the input field"
+                  addressError:
+                    type: "string"
+                    example: "Fill in the input field"
+                  emailError:
+                    type: "string"
+                    example: "Email cannot be empty"
+                  phoneNumberError:
+                    type: "string"
+                    example: "Phone number cannot be empty"
+                  postIndexError:
+                    type: "string"
+                    example: "Post index cannot be empty"
+
+  /api/v1/users/review:
+    post:
+      tags:
+        - "UserController"
+      summary: "Add review to perfume"
+      operationId: "addReviewToPerfume"
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                perfumeId:
+                  type: "number"
+                  format: "int64"
+                  example: 43
+                author:
+                  type: "string"
+                  example: "John Doe"
+                message:
+                  type: "string"
+                  example: "Hello World!"
+              required:
+                - perfumeId
+                - author
+                - message
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Review added successfully."
+        "400":
+          description: "Bad Request"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  authorError:
+                    type: "string"
+                    example: "Fill in the input field"
+                  messageError:
+                    type: "string"
+                    example: "Fill in the input field"
+
+components:
+  securitySchemes:
+    token:
+      type: apiKey
+      name: Authorization
+      in: header
+
+  schemas:
+    PerfumeResponse:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          example: 43
+        perfumeTitle:
+          type: "string"
+          example: "Sauvage"
+        perfumer:
+          type: "string"
+          example: "Dior"
+        year:
+          type: "integer"
+          format: "int32"
+          example: 2015
+        country:
+          type: "string"
+          example: "France"
+        perfumeGender:
+          type: "string"
+          example: "male"
+        fragranceTopNotes:
+          type: "string"
+          example: "Sichuan Pepper"
+        fragranceMiddleNotes:
+          type: "string"
+          example: "Bergamot"
+        fragranceBaseNotes:
+          type: "string"
+          example: "Ambroxan"
+        description:
+          type: "string"
+          example: "Perfume description"
+        filename:
+          type: "string"
+          example: "Dior_Sauvage.jpg"
+        price:
+          type: "integer"
+          format: "int32"
+          example: 62
+        volume:
+          type: "string"
+          example: "100"
+        type:
+          type: "string"
+          example: "Eau de parfum"
+        reviews:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/ReviewResponse"
+        file:
+          type: "string"
+          format: binary
+
+    ReviewResponse:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          example: 1
+        author:
+          type: "string"
+          example: "John Doe"
+        message:
+          type: "string"
+          example: "Message"
+        date:
+          type: "string"
+          example: "2021-04-07"
+
+    PerfumeError:
+      type: "object"
+      properties:
+        perfumeTitleError:
+          type: "string"
+          example: "Fill in the input field"
+        perfumerError:
+          type: "string"
+          example: "Fill in the input field"
+        yearError:
+          type: "string"
+          example: "Fill in the input field"
+        countryError:
+          type: "string"
+          example: "Fill in the input field"
+        typeError:
+          type: "string"
+          example: "Fill in the input field"
+        volumeError:
+          type: "string"
+          example: "Fill in the input field"
+        perfumeGenderError:
+          type: "string"
+          example: "Fill in the input field"
+        fragranceTopNotesError:
+          type: "string"
+          example: "Fill in the input field"
+        fragranceMiddleNotesError:
+          type: "string"
+          example: "Fill in the input field"
+        fragranceBaseNotesError:
+          type: "string"
+          example: "Fill in the input field"
+        priceError:
+          type: "string"
+          example: "Fill in the input field"
+
+    OrderResponse:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          example: 1
+        totalPrice:
+          type: "number"
+          format: "double"
+          example: 100
+        date:
+          type: "string"
+          example: "2021-04-07"
+        firstName:
+          type: "string"
+          example: "John"
+        lastName:
+          type: "string"
+          example: "Doe"
+        city:
+          type: "string"
+          example: "New York"
+        address:
+          type: "string"
+          example: "Wall Street 1"
+        email:
+          type: "string"
+          example: "test123@test.com"
+        phoneNumber:
+          type: "string"
+          example: "123456"
+        postIndex:
+          type: "integer"
+          format: "int32"
+          example: 123456
+        orderItems:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/OrderItemResponse"
+
+    OrderItemResponse:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          example: 1
+        amount:
+          type: "integer"
+          format: "int64"
+          example: 100
+        quantity:
+          type: "integer"
+          format: "int64"
+          example: 2
+        perfume:
+          $ref: "#/components/schemas/PerfumeResponse"
+
+    User:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          example: 2
+        email:
+          type: "string"
+          example: "test123@test.com"
+        firstName:
+          type: "string"
+          example: "John"
+        lastName:
+          type: "string"
+          example: "Doe"
+        city:
+          type: "string"
+          example: "New York"
+        address:
+          type: "string"
+          example: "Wall Street 1"
+        phoneNumber:
+          type: "string"
+          example: "123456"
+        postIndex:
+          type: "string"
+          example: "123456"
+        provider:
+          type: "string"
+          example: "LOCAL"
+        active:
+          type: "boolean"
+          example: true
+        activationCode:
+          type: "string"
+          example: ""
+        passwordResetCode:
+          type: "string"
+          example: ""
+        roles:
+          type: "array"
+          items:
+            type: "string"
+            example: "USER"
+
+    AuthenticationResponse:
+      type: "object"
+      properties:
+        email:
+          type: "string"
+        token:
+          type: "string"
+        userRole:
+          type: "string"
